@@ -1,9 +1,10 @@
-import NewTransactionForm from "@/components/NewTransactionForm";
+import CreateTransactionForm from "@/components/CreateTransactionForm";
 
 const Page = async () => {
+
   return (
     <div>
-      <NewTransactionForm />
+      <CreateTransactionForm />
     </div>
   );
 };

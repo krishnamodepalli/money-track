@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 
 import { ITransaction } from "@/interfaces";
 import { pb_date } from "@/utils/database/formatting";
+import useCategoryContext from "@/hooks/useCategoryContext";
 
 interface HistoryTransactionProps {
   transaction: ITransaction;
@@ -10,6 +13,9 @@ interface HistoryTransactionProps {
 const HistoryTransaction = ({
   transaction,
 }: HistoryTransactionProps): React.ReactNode => {
+  const { state } = useCategoryContext();
+  console.log(state);
+
   return (
     <div
       key={transaction.id}

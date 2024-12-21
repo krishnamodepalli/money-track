@@ -10,7 +10,7 @@ import { ICategories, IPBRecord } from "@/interfaces";
  *
  * @example
  * const categories = await getAll();
- * console.log(categories); // { 'Category 1': '123', 'Category 2': '456' }
+ * console.log(categories); // { '123': 'Category 1', '456': 'Category 2' }
  */
 const getAll = async (): Promise<ICategories | null> => {
   // Define an interface to represent the category records in the collection
