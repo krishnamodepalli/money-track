@@ -1,20 +1,16 @@
-import { ICategories } from "@/interfaces";
+import { ICategoriesContextState, TransacType } from "@/interfaces";
 import React, { createContext } from "react";
 
-interface ICategoryContextState {
-  categories: ICategories;
-}
-
 type ICategoryContextAction =
-  | { type: "ADD_CAT"; payload: { id: string; title: string } }
-  | { type: "REMOVE_CAT"; payload: { id: string } };
+  | { type: "ADD_CAT"; payload: { id: string; title: string, transacType: TransacType } }
+  | { type: "REMOVE_CAT"; payload: { id: string, transacType: TransacType } };
 
 interface ICategoryContext {
-  state: ICategoryContextState;
+  state: ICategoriesContextState;
   dispatch: React.Dispatch<ICategoryContextAction>;
 }
 
 const CategoryContext = createContext<ICategoryContext | null>(null);
 
 export default CategoryContext;
-export type { ICategoryContextState, ICategoryContextAction };
+export type { ICategoriesContextState, ICategoryContextAction };

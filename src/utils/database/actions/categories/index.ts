@@ -1,6 +1,6 @@
 import pb from "@/utils/pocketbase";
 
-import { ICategories, IPBRecord } from "@/interfaces";
+import { ICategoriesContextState, IPBRecord, TransacType } from "@/interfaces";
 
 /**
  * Fetches all categories from the 'categories' collection and returns them in a structured object.
@@ -12,7 +12,7 @@ import { ICategories, IPBRecord } from "@/interfaces";
  * const categories = await getAll();
  * console.log(categories); // { '123': 'Category 1', '456': 'Category 2' }
  */
-const getAll = async (): Promise<ICategories | null> => {
+const getAll = async (): Promise<ICategoriesContextState | null> => {
   // Define an interface to represent the category records in the collection
   interface IPBCatRecords extends IPBRecord {
     category: string;
@@ -30,11 +30,17 @@ const getAll = async (): Promise<ICategories | null> => {
   }
 
   // Create an object to hold the categories as key-value pairs
-  const res: ICategories = {};
+  const res: ICategoriesContextState = {
+    income: {},
+    expense: {},
+  };
 
   // Map category names to their respective IDs
   for (const record of data) {
-    res[record.id] = record.category;
+    if (record.type === TransacType.EXPENSE)
+      res.expense[record.id] = record.category;
+    else if (record.type === TransacType.INCOME)
+      res.income[record.id] = record.category;
   }
 
   return res;

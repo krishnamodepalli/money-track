@@ -1,6 +1,6 @@
 enum TransacType {
   EXPENSE = 1,
-  INCOME
+  INCOME,
 }
 
 interface ITransaction {
@@ -27,14 +27,18 @@ interface ITransacRecord extends IPBRecord, ITransaction {}
 
 type ICategories = Record<string, string>;
 
-export {
-  TransacType
+interface ICategoriesContextState {
+  income: ICategories;
+  expense: ICategories;
 }
+
+export { TransacType };
 
 export type {
   IPBRecord,
   ITransaction,
   ITransacRecord,
   ICategories,
-  GroupedTransactions
-}
+  ICategoriesContextState,
+  GroupedTransactions,
+};
