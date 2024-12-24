@@ -14,8 +14,7 @@ const createExpense = async (formData: FormData) => {
     TransacType.EXPENSE,
     formData.get("title") as string,
     parseFloat(formData.get("amount") as string),
-    // formData.get("category") as string,
-    "or355uit7a1jd4a",
+    formData.get("category") as string,
     formData.get("description") as string,
     timestamp,
   );

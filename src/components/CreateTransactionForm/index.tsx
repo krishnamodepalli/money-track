@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 
+import useCategoryContext from "@/hooks/useCategoryContext";
 import createExpense from "@/actions/createExpense";
 import Each from "../utils/Each";
 
 const CreateTransactionForm = () => {
+  const { state } = useCategoryContext();
+  const { income: IncomeCategories, expense: ExpenseCategories } = state;
+
   enum ActiveTransaction {
     EXPENSE = 1,
     INCOME,
@@ -63,11 +67,18 @@ const CreateTransactionForm = () => {
               name="category"
               className="w-40 rounded-md border border-neutral-700 py-1 pl-2 text-lg"
             >
-              <option value="" defaultChecked>
-                Other
-              </option>
-              <option value="">Other</option>
-              <option value="">Other</option>
+              <option defaultChecked>Category</option>
+              {Object.keys(
+                activeTransac === ActiveTransaction.EXPENSE
+                  ? ExpenseCategories
+                  : IncomeCategories,
+              ).map((category) => (
+                <option key={category} value={category}>
+                  {activeTransac === ActiveTransaction.EXPENSE
+                    ? ExpenseCategories[category]
+                    : IncomeCategories[category]}
+                </option>
+              ))}
             </select>
             <button
               type="button"
