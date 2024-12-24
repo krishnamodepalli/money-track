@@ -3,14 +3,22 @@ import pb from "@/utils/pocketbase";
 import { ICategoriesContextState, IPBRecord, TransacType } from "@/interfaces";
 
 /**
- * Fetches all categories from the 'categories' collection and returns them in a structured object.
- * The object maps category names to their respective category IDs.
+ * Fetches all categories from the 'categories' collection and returns them categorized into
+ * income and expense groups. Each group contains an object that maps category IDs to their
+ * respective category names.
  *
- * @returns {Promise<ICategories | null>} A promise that resolves to an object mapping category names to category IDs or null if no data is found.
+ * The return type is structured as an object with two properties:
+ * - `income`: A map of category IDs to category names for income-related categories.
+ * - `expense`: A map of category IDs to category names for expense-related categories.
+ *
+ * @returns {Promise<ICategoriesContextState | null>} A promise that resolves to an object containing
+ *          two properties, `income` and `expense`, which are maps of category IDs to names.
+ *          Returns `null` if no data is found or the fetch fails.
  *
  * @example
  * const categories = await getAll();
- * console.log(categories); // { '123': 'Category 1', '456': 'Category 2' }
+ * console.log(categories);
+ * // { income: { '123': 'Salary', '456': 'Investment' }, expense: { '789': 'Rent', '101': 'Groceries' } }
  */
 const getAll = async (): Promise<ICategoriesContextState | null> => {
   // Define an interface to represent the category records in the collection
@@ -35,12 +43,13 @@ const getAll = async (): Promise<ICategoriesContextState | null> => {
     expense: {},
   };
 
-  // Map category names to their respective IDs
+  // Map category names to their respective IDs based on type
   for (const record of data) {
-    if (record.type === TransacType.EXPENSE)
+    if (record.type === TransacType.EXPENSE) {
       res.expense[record.id] = record.category;
-    else if (record.type === TransacType.INCOME)
+    } else if (record.type === TransacType.INCOME) {
       res.income[record.id] = record.category;
+    }
   }
 
   return res;
