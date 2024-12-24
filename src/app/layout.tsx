@@ -3,7 +3,6 @@ import React from "react";
 
 import CategoryContextProvider from "@/contexts/categories/Provider";
 import "./globals.css";
-import { NextUIProvider } from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: "Money Track",
