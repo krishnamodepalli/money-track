@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 
 import useCategoryContext from "@/hooks/useCategoryContext";
 import createExpense from "@/actions/createExpense";
@@ -50,36 +51,35 @@ const CreateTransactionForm = () => {
             action={createExpense}
             className="flex flex-col items-start gap-4"
           >
-            <input
+            <Input
               type="text"
-              className="w-80 rounded-md border border-neutral-700 px-2 py-1 text-lg"
-              placeholder={`${activeTransac === ActiveTransaction.EXPENSE ? "Expense" : "Income"} title`}
               name="title"
+              label={`${activeTransac === ActiveTransaction.EXPENSE ? "Expense" : "Income"} title`}
+              isRequired
+              isClearable
+              variant="bordered"
             />
-            <input
+            <Input
               type="number"
-              className="w-40 rounded-md border border-neutral-700 py-1 pl-2 text-lg"
-              placeholder="Amount"
               name="amount"
+              label="Amount"
               min={1}
+              isRequired
+              variant="bordered"
             />
-            <select
-              name="category"
-              className="w-40 rounded-md border border-neutral-700 py-1 pl-2 text-lg"
-            >
-              <option defaultChecked>Category</option>
+            <Select label="Choose the category" isRequired variant="bordered">
               {Object.keys(
                 activeTransac === ActiveTransaction.EXPENSE
                   ? ExpenseCategories
                   : IncomeCategories,
               ).map((category) => (
-                <option key={category} value={category}>
+                <SelectItem key={category} value={category}>
                   {activeTransac === ActiveTransaction.EXPENSE
                     ? ExpenseCategories[category]
                     : IncomeCategories[category]}
-                </option>
+                </SelectItem>
               ))}
-            </select>
+            </Select>
             <button
               type="button"
               className="text-sm font-semibold text-blue-500 hover:underline"
@@ -88,25 +88,34 @@ const CreateTransactionForm = () => {
               {showExpenseDetails ? "Collapse" : "Expand"} details?
             </button>
 
-            <div className={`${showExpenseDetails ? "visible" : "hidden"}`}>
-              <textarea
-                className="rounded-md border border-neutral-700 p-2 text-lg"
-                cols={50}
-                rows={2}
-                placeholder="Description..."
-                name="description"
-              ></textarea>
+            <div
+              className={`${showExpenseDetails ? "visible" : "hidden"} w-full`}
+            >
+              <Textarea
+                className="mb-4"
+                label="Description"
+                placeholder="About the transaction..."
+                variant="bordered"
+                isClearable
+                minRows={3}
+                maxRows={3}
+                minLength={100}
+                fullWidth
+              ></Textarea>
               <div className="flex gap-4">
-                <input
+                <Input
                   type="date"
                   defaultValue={new Date().toISOString().split("T")[0]}
-                  className="rounded-md border border-neutral-700 px-2 py-1 text-lg"
                   name="date"
+                  label="Transaction date"
+                  variant="bordered"
                 />
-                <input
+                <Input
                   type="time"
-                  className="rounded-md border border-neutral-700 px-2 py-1 text-lg"
+                  defaultValue={new Date().toISOString().split("T")[1]}
                   name="time"
+                  label="Transaction time"
+                  variant="bordered"
                 />
               </div>
             </div>
